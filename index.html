@@ -5,29 +5,119 @@
     <meta name="description" content="The Traveler">
     <meta name="author" content="Joseph A. Rocha">
     <title>The Traveler</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="app.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="simulation.js"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.8/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.8/"></script>
+    <script>
+        require([
+          "esri/Map",
+          "esri/views/MapView",
+          "esri/geometry/Point",
+          "esri/symbols/MarkerSymbol",
+          "esri/symbols/LineSymbol",
+          "esri/PopupTemplate",
+          "esri/layers/GraphicsLayer",
+          "esri/Graphic",
+          "dojo/domReady!"
+        ], function(Map, MapView, Point, MarkerSymbol, LineSymbol, PopupTemplate, GraphicsLayer, Graphic) {
+
+          var map = new Map({
+            basemap: "streets"
+          });
+
+          var view = new MapView({
+            container: "viewDiv",
+            map: map,
+            zoom: 4,
+            center: [-77.0369, 38.9072] // longitude, latitude
+          });
+
+          var layer = new GraphicsLayer();
+          map.add(layer);
+
+          window.change = function(cities){
+            var previous = null;
+            console.log(cities);
+            for(i = 0; i < cities.length; i++ ){//Long Lat
+                if(previous != null){
+                    var polyline = {type: "polyline",paths: [[previous.x, previous.y], [cities[i].x, cities[i].y]]};
+                    var lineSymbol = {type: "simple-line", color: [226, 119, 40], width: 3};
+                    var polylineGraphic = new Graphic({geometry: polyline, symbol: lineSymbol});
+                    layer.add(polylineGraphic);
+                }
+                previous = cities[i];
+            }
+            //Add points after so it's not ug;y
+            for(i = 0; i < cities.length; i++ ){//Long Lat
+                var point = new Point(cities[i].x, cities[i].y);
+                var template = new PopupTemplate({
+                     title: cities[i].name,
+                     content: ""
+                 });
+                var markerSymbol = {type: "simple-marker", style: "circle",color: "#1a75ff", outline: { color: [255, 255, 255], width: 2}};
+                var pointGraphic = new Graphic({geometry: point, symbol: markerSymbol, popupTemplate: template});
+                layer.add(pointGraphic);
+            }
+          }
+        });
+      </script>
   </head>
   <body style="background-color: #1e1b29;">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 2%">
-  <a class="navbar-brand" href="#">The Traveler</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link" href="https://Github.com/JosephARocha/GenVision">Github</a>
-    <a class="nav-item nav-link" href="https://JosephRocha.io/">Developer</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <a class="navbar-brand" href="#">The Traveler</a>
+       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+         <div class="navbar-nav">
+           <a class="nav-item nav-link" href="https://Github.com/JosephRocha/TravelingSalesman">Github</a>
+           <a class="nav-item nav-link" href="https://JosephRocha.io/">Developer</a>
+         </div>
+       </div>
+     </nav>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div class="list-group">
+      <button type="button" class="list-group-item list-group-item-action cityselector">New York</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Los Angeles</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Chicago</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Houston</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Phoenix</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Philadelphia</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">San Antonio</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">San Diego</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Dallas</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector" >San Jose</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector" >Austin</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector" >Jacksonville</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector" >San Francisco</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Columbus</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Fort Worth</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Indianapolis</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector" >Charlotte</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector" >Seattle</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Denver</button>
+      <button type="button" class="list-group-item list-group-item-action cityselector">Washington</button>
+      </div>
+    </div>
   </div>
 </div>
-</nav>
-    
-    <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        <script src="simulation.js"></script>
+<div class="container" style="height: 10%">
+  <div class="row">
+    <div class="col-sm">
+      <div class="list-group">
+      <br>
+      <button id="submit" type="button" class="btn btn-success">Find Optimal Path</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="viewDiv"><div class="hide" id="BasemapToggle"></div></div>
   </body>
 </html>
-
