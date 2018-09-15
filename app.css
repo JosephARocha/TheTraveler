@@ -12,10 +12,6 @@
   overflow-y: scroll;
 }
 
-body{
-  height: auto;
-}
-
 html,
 body,
 #viewDiv {

@@ -2,9 +2,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="The Traveler">
+    <meta name="description" content="Traveling Salesman">
     <meta name="author" content="Joseph A. Rocha">
-    <title>The Traveler</title>
+    <title>Traveling Salesman</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="app.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
@@ -83,27 +83,17 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <div class="list-group">
-      <button type="button" class="list-group-item list-group-item-action cityselector">New York</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Los Angeles</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Chicago</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Houston</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Phoenix</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Philadelphia</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">San Antonio</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">San Diego</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Dallas</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector" >San Jose</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector" >Austin</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector" >Jacksonville</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector" >San Francisco</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Columbus</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Fort Worth</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Indianapolis</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector" >Charlotte</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector" >Seattle</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Denver</button>
-      <button type="button" class="list-group-item list-group-item-action cityselector">Washington</button>
+      <div id="selectorlistgroup" class="list-group">
+      <script>
+          for(key in dataset){
+              var currentDiv = document.getElementById("selectorlistgroup");
+              var newButton = document.createElement("button");
+              newButton.className= "list-group-item list-group-item-action cityselector";
+              var newContent = document.createTextNode(key);
+              newButton.appendChild(newContent);
+              currentDiv.appendChild(newButton);
+          }
+      </script>
       </div>
     </div>
   </div>
@@ -118,6 +108,6 @@
     </div>
   </div>
 </div>
-<div id="viewDiv"><div class="hide" id="BasemapToggle"></div></div>
+    <div id="viewDiv"><div class="hide" id="BasemapToggle"></div></div>
   </body>
 </html>
